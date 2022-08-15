@@ -1,0 +1,30 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Title:</strong>
+  <%= @link.title %>
+</p>
+
+<p>
+  <strong>Url:</strong>
+  <%= @link.url %>
+</p>
+
+<br>
+
+<h2> Comments </h2>
+<% @link.comments.each do |comment| %>
+  <p>
+    <%= comment.user.email %>
+      <small> Commented: </small>
+      <%= comment.body %>
+  </p>
+<% end %>
+
+<%= render 'comments/form' %>
+
+<% if @link.user == current_user %>
+      <%= link_to 'Edit', edit_link_path(@link) %>
+      <%= link_to 'Delete', @link, method: :delete, data: { confirm: 'Are you sure?' } %>
+<% end %>
+<%= link_to 'Home', links_path %>

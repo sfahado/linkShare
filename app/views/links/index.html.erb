@@ -1,0 +1,36 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Links</h1>
+<% @links.each do |link| %>
+  <div>
+    <h2>
+        <%= link_to link.title, link %><br>
+        <small> Submitted <%= time_ago_in_words(link.created_at) %> by <%= link.user.email %></small>
+    </h2>
+
+  <div>
+    <a href="<%= link.url %>">Go to Link</a>
+    <% if user_signed_in? %>
+      <% if current_user.liked? link %>
+            <%= link_to 'unlike', like_link_path(link, 'unlike'), method: :put, remote: :true %>
+          <% else %>
+            <%= link_to 'like', like_link_path(link, 'like'), method: :put, remote: :true %>
+          <% end %>
+        <%= link.get_upvotes.size %>
+
+        <% if current_user.disliked? link %>
+            <%= link_to 'undislike', dislike_link_path(link, 'undislike'), method: :put, remote: :true %>
+          <% else %>
+            <%= link_to 'dislike', dislike_link_path(link, 'dislike'), method: :put, remote: :true %>
+          <% end %>
+        <%= link.get_downvotes.size %>
+
+    <% end %>
+
+  </div>
+  </div>
+<% end %>
+
+<br>
+
+<%= link_to 'New Link', new_link_path %>
